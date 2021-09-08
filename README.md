@@ -18,7 +18,7 @@ desde tu terminal introducel el comando acompañado de la ruta del directorio o 
 ## Planificaión del flujo de trabajo:
 Para el desarrollo de este proyecto, comencé realizando una lista de accionables que llevaría a cabo y las documenté en un archivo excel para realizar el seguimiento. 
 
-<img src="./images/scrud.png" width="300px" />
+<img src="https://github.com/emmiraffo/SCL017-md-link/blob/master/images/scrud.PNG" width="300px" />
 
 pack instalados: 
 ` npm install eslint --save-dev `
