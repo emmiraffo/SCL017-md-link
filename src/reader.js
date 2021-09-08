@@ -4,21 +4,35 @@ const path = require('path');
 
 // FUNCION PARA DETECTAR ARCHIVOS MD EN FILE O FOLDER
 function getMdFilesFromPath(pathParam) {
-    let extension = path.extname(pathParam)
-    if (extension == '.md') {
-        return [pathParam]
+    absolutePath = path.resolve(pathParam)
+    statsObj = fs.statSync(absolutePath)
+    if(statsObj.isFile()) {
+        let extension = path.extname(absolutePath)
+        if (extension == '.md') {
+            return [absolutePath]
+        }
     }
-    if (extension == '') {
+    if (statsObj.isDirectory()) {
         var fileArray = []
-        fs.readdirSync(pathParam).forEach((file)=> {
-            let extension = path.extname(file)
-            if (extension == '.md') {
-                fileArray.push(pathParam + file)
-            }
-        })
+        readFilesInFolder(absolutePath, fileArray)
         return fileArray
     }
     return []
+}
+
+function readFilesInFolder(folder, fileArray){
+    fs.readdirSync(folder).forEach((element)=> {
+        let newFolder = path.resolve(folder, element)
+        let statsObj = fs.statSync(newFolder)
+        if (statsObj.isDirectory()) {
+            readFilesInFolder(newFolder, fileArray)
+        } else {
+            let extension = path.extname(newFolder)
+            if (extension == '.md') {
+                fileArray.push( path.resolve(folder, element))
+            }
+        }
+    })
 }
 
 // FUNCION PARA DETECTAR ARCHIVOS MD EN FILE O FOLDER
@@ -39,5 +53,6 @@ function readMdFile (fileParam) {
 
 module.exports = {
     getMdFilesFromPath,
+    readFilesInFolder,
     readMdFile
 }
